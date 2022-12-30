@@ -89,7 +89,8 @@ using `intro`, `exact` and `apply`.
 /-- Every proposition implies itself. -/
 example : P → P :=
 begin
-  sorry
+intro h1,
+exact h1,
 end
 
 /-
@@ -109,28 +110,38 @@ So the next level is asking you prove that `P → (Q → P)`.
 -/
 example : P → Q → P :=
 begin
-  sorry
+intros h1 h2,
+exact h1,
 end
 
 /-- If we know `P`, and we also know `P → Q`, we can deduce `Q`. 
 This is called "Modus Ponens" by logicians. -/
 example : P → (P → Q) → Q :=
 begin
-  sorry
+intros h1 h2,
+apply h2,
+exact h1,
 end
 
 /-- `→` is transitive. That is, if `P → Q` and `Q → R` are true, then
   so is `P → R`. -/
 example : (P → Q) → (Q → R) → (P → R) :=
 begin
-  sorry,
+intros h1 h2 h3,
+apply h2,
+apply h1,
+exact h3,
 end
 
 -- If `h : P → Q → R` with goal `⊢ R` and you `apply h`, you'll get
 -- two goals! Note that tactics operate on only the first goal.
 example : (P → Q → R) → (P → Q) → (P → R) :=
 begin
-  sorry
+intros h1 h2 h3,
+apply h1,
+exact h3,
+apply h2,
+exact h3,
 end
 
 /- 
@@ -146,27 +157,50 @@ variables (S T : Prop)
 
 example : (P → R) → (S → Q) → (R → T) → (Q → R) → S → T :=
 begin
-  sorry
+intros h1 h2 h3 h4 h5,
+apply h3,
+apply h4,
+apply h2,
+exact h5,
 end
 
 example : (P → Q) → ((P → Q) → P) → Q :=
 begin
-  sorry
+intros h1 h2,
+apply h1,
+apply h2,
+intro h3,
+apply h1,
+exact h3,
 end
 
 example : ((P → Q) → R) → ((Q → R) → P) → ((R → P) → Q) → P :=
 begin
-  sorry
+intros h1 h2 h3,
+apply h2,
+intro h4,
+apply h1,
+intro h5,
+exact h4,
 end
 
 example : ((Q → P) → P) → (Q → R) → (R → P) → P :=
 begin
-  sorry
+intros h1 h2 h3,
+apply h1,
+intro h4,
+apply h3,
+apply h2,
+exact h4,
 end
 
 example : (((P → Q) → Q) → Q) → (P → Q) :=
 begin
-  sorry
+intros h1 h2,
+apply h1,
+intro h3,
+apply h3,
+exact h2,
 end
 
 example :
@@ -174,5 +208,10 @@ example :
   ((((P → P) → Q) → (P → P → Q)) → R) →
   (((P → P → Q) → ((P → P) → Q)) → R) → R :=
 begin
-  sorry
+intros h1 h2 h3,
+apply h2,
+intros h4 h5 h6,
+apply h4,
+intro,
+exact h5,
 end
